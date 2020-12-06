@@ -1,0 +1,56 @@
+version: '3.8'
+
+networks:
+  laravel:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - laravel
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_DATABASE: my_app
+      MYSQL_USER: my_app_user
+      MYSQL_PASSWORD: my_app_pass
+      MYSQL_ROOT_PASSWORD: my_root_pass
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - laravel
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    user: "www-data:www-data"
+    volumes:
+      - ./src:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    ports:
+      - "19000:9000"
+    networks:
+      - laravel
+    
+  composer:
+    image: composer:2
+    container_name: composer
+    networks:
+      - laravel
