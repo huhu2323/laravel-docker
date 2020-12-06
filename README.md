@@ -71,3 +71,13 @@ To run `artisan`:
 ```
 docker exec -it php php artisan <command, e.g. migrate>
 ```
+
+To work with cron jobs (the default user is `www-data` and the cron is running in the `php` container):
+
+```
+# To edit the crontab
+docker exec -it php crontab -e
+
+# To view the crontab
+docker exec -it php crontab -l
+```
