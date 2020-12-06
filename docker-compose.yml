@@ -36,9 +36,7 @@ services:
       - laravel
 
   php:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: liamdemafelix/laravel-docker-php:latest
     container_name: php
     user: "www-data:www-data"
     volumes:
