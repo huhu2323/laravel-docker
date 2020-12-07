@@ -28,13 +28,7 @@ If you wish to contribute to **this** project (a bug fix, an enhancement, etc.),
 
 We delete the `.git` folder becauese it's a pain to manage git submodules (your app will live in `src/`).
 
-Then, to run the containers, first you need to build the PHP image (since we also need to bundle `composer` and set the correct user permissions):
-
-```
-docker-compose build
-```
-
-Then, run them all:
+Then, to run the containers:
 
 ```
 docker-compose up -d
